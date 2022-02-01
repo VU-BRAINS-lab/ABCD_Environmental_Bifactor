@@ -390,6 +390,10 @@ stressor.data$demo_fam_exp1_exp2[stressor.data$demo_fam_exp1_exp2==0.5]<-1
 # randomly select 9000 samples for ESEM
 set.seed(1234)
 # extract variables for factor analysis (subject, psweight, famid, siten, wt_NR_mwacs)
+data.fa<-data[,c(1,6,7,10,808)]
+stressor.data<-cbind(data.fa, stressor.data)
+indx<-sapply(stressor.data, is.factor) # some variables are saved as factors in the new version (eg. siten) Change them to numeric for NA conversion. Otherwise, <NA> will not be converted to .
+stressor.data[indx]<-lapply(stressor.data[indx], function(x) as.numeric(x))
 # esem data: 9000, cfa data: rest (2878)
 esem_data<-sample_n(stressor.data, 9000)
 cfa_data<-stressor.data[-c(esem_data$subnum_char),]
@@ -409,6 +413,9 @@ write.dat(esem_data_mwacs, "esem_data")
 write.dat(cfa_data_mwacs, "cfa_data")
 # save variable names (same for esem and cfa data)
 write.csv(names(esem_data_mwacs), "esem_names.csv")
+                            
+## scree plot to check number of factors ##
+plot(eigen(cor(stressor.data, use="pairwise"))$values[1:50])
 
 saveRDS(stressor.data, "stressor.data.RDA")
 ## make dataset with brain variables ##
