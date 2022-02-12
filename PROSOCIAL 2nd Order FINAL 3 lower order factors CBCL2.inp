@@ -1,0 +1,125 @@
+
+TITLE: FINAL SPLIT2 CRITERION VALIDITY OF SECOND ORDER 3 MODELS ABCD;
+DATA:  FILE is f:\SAS2\data\ABCD\FSPLIT2_ABCD.DAT;
+  VARIABLE: NAMES ARE subnum_char age 
+FEMALE PSWEIGHT FAMID rel_relationship  
+demo_prim_p siten FLIP SPLIT NHWHITE 
+AFRICAN HISPANIC OTHER
+cbcl01 cbcl03 cbcl04 cbcl05  
+cbcl07 cbcl09 cbcl10 
+cbcl13 cbcl15 cbcl16 
+cbcl17 cbcl19 cbcl22 cbcl23 
+cbcl25 cbcl26 cbcl27 cbcl28 
+cbcl30 cbcl31 cbcl32 cbcl33 cbcl34 
+cbcl35 cbcl36 cbcl37 cbcl39 cbcl41
+cbcl42 cbcl43 cbcl46 
+cbcl50 cbcl51 cbcl52 cbcl56a 
+cbcl56b cbcl56c cbcl56f cbcl56g 
+cbcl56h cbcl57 cbcl61 cbcl62
+cbcl65 cbcl66 cbcl68 cbcl69 
+cbcl71 cbcl72 cbcl74 cbcl75 
+cbcl80 cbcl81 cbcl82 cbcl84 
+cbcl85 cbcl86 cbcl87 cbcl88 cbcl89 
+cbcl90 cbcl93 cbcl94 
+cbcl95 cbcl97 cbcl102 cbcl103 
+cbcl106 cbcl109 cbcl111 cbcl112 
+ATTEND DESTROY
+UPPSLPRE UPPSLPER UPPSNEG UPPSPOS UPPSSS
+prosocp prosocy CASHCHOICE RAVLT
+SUSPEND MHSERVICE SPEDE SPEDL SPED
+cardsort flanker list pattern
+picture PPVT reading wiscv lmt
+MATAGE GESTAGE OFFY SINJY;
+
+  !cbcl05 cbcl36 cbcl42 cbcl56h cbcl65 out
+!cbcl69 cbcl93 no loads in CFA
+
+USEVARIABLES ARE cbcl01 cbcl03 cbcl04 
+  cbcl07 cbcl09 cbcl10
+  cbcl13 cbcl15 cbcl16
+  cbcl17 cbcl19 cbcl22 cbcl23
+  cbcl25 cbcl26 cbcl27 cbcl28
+  cbcl30 cbcl31 cbcl32 cbcl33 cbcl34
+  cbcl35 cbcl37 cbcl39 cbcl41
+  cbcl43 cbcl46
+  cbcl50 cbcl51 cbcl52 cbcl56a
+  cbcl56b cbcl56c cbcl56f cbcl56g
+  cbcl57 cbcl61 cbcl62 cbcl66  cbcl68 
+  cbcl71 cbcl72 cbcl74 cbcl75
+  cbcl80 cbcl81 cbcl82 cbcl84
+  cbcl85 cbcl86 cbcl87 cbcl88 cbcl89
+  cbcl90 cbcl94
+  cbcl95 cbcl97 cbcl102 cbcl103
+  cbcl106 cbcl109 cbcl111 cbcl112
+  ATTEND DESTROY age 
+  FEMALE NHWHITE AFRICAN HISPANIC
+  prosocy;
+
+  CATEGORICAL=cbcl01 cbcl03 cbcl04 
+  cbcl07 cbcl09 cbcl10
+  cbcl13 cbcl15 cbcl16
+  cbcl17 cbcl19 cbcl22 cbcl23
+  cbcl25 cbcl26 cbcl27 cbcl28
+  cbcl30 cbcl31 cbcl32 cbcl33 cbcl34
+  cbcl35 cbcl37 cbcl39 cbcl41
+  cbcl43 cbcl46
+  cbcl50 cbcl51 cbcl52 cbcl56a
+  cbcl56b cbcl56c cbcl56f cbcl56g
+  cbcl57 cbcl61 cbcl62 cbcl66  cbcl68 
+  cbcl71 cbcl72 cbcl74 cbcl75
+  cbcl80 cbcl81 cbcl82 cbcl84
+  cbcl85 cbcl86 cbcl87 cbcl88 cbcl89
+  cbcl90 cbcl94
+  cbcl95 cbcl97 cbcl102 cbcl103
+  cbcl106 cbcl109 cbcl111 cbcl112
+  ATTEND DESTROY;
+
+  MISSING ARE .;
+    WEIGHT = PSWEIGHT;
+    STRATIFICATION=SITEN;
+    IDVARIABLE = subnum_char;
+    CLUSTER=FAMID;
+
+
+    ANALYSIS:
+    ESTIMATOR=WLSMV;
+    ITERATIONS=500000;
+    TYPE = COMPLEX;
+
+  MODEL:
+
+  [GENERAL@0]; [INT@0]; [EXT@0]; [ADHD@0];
+   GENERAL@1; INT@1; EXT@1; ADHD@1; 
+
+  EXT BY CBCL03*.8 CBCL07 CBCL15 CBCL16 cbcl19 CBCL22
+  CBCL23 CBCL25 CBCL26 CBCL27 CBCL28 cbcl34
+  CBCL37 CBCL39 CBCL43 CBCL57 CBCL68
+  CBCL72 CBCL74 CBCL81 CBCL82 CBCL86 cbcl87 
+  cbcl88 cbcl89 CBCL90 CBCL94 CBCL95 CBCL97
+  CBCL106 cbcl109 DESTROY;
+
+  ADHD BY CBCL01*.8 CBCL04 CBCL09 CBCL10 CBCL13
+  CBCL17 cbcl41 CBCL46 CBCL61 CBCL62 CBCL66 CBCL80 
+  cbcl84 cbcl85 ATTEND;
+
+  INT BY CBCL30*.8 CBCL31 CBCL32 cbcl33 CBCL35  
+  CBCL50 cbcl51 CBCL52 cbcl56a CBCL56B CBCL56C 
+  CBCL56F CBCL56G CBCL71 CBCL75 
+  CBCL102 CBCL103 CBCL111 CBCL112 ;
+    
+  GENERAL BY EXT*.9 ADHD INT;
+ 
+  prosocy ON EXT INT ADHD age FEMALE NHWHITE AFRICAN HISPANIC;
+
+  !RUN SEPARATELY
+  !prosocy ON GENERAL age FEMALE NHWHITE AFRICAN HISPANIC;
+
+
+  OUTPUT: STDYX;
+
+
+
+
+
+
+
