@@ -141,9 +141,16 @@ for(i in 1:ncol(ordinal.data.updated)){
 count_table<-setNames(count_table, colnames(ordinal.data.updated))
 prop_table<-setNames(prop_table, colnames(ordinal.data.updated))
 
-# get the list of variables with endorsement less than .5%
+# get the list of variables with endorsement less than .5% (use for binary variables)
 for(i in 1:ncol(ordinal.data.updated)){
   if(any(prop_table[[i]]<.5)){
+    print(names(prop_table[i]))
+  }
+}
+                   
+# get the list of variables with endorsement less than .5% (use for non-binary variables)
+for(i in 1:ncol(ordinal.data.updated)){
+  if(any(prop_table[[i]]>99.5)){
     print(names(prop_table[i]))
   }
 }
