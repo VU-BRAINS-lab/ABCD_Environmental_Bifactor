@@ -1,0 +1,335 @@
+TITLE: ABCD Bifactor;
+DATA:FILE is 
+cfa_data_mwacs.dat;
+VARIABLE: NAMES ARE 
+  subnum
+  psweight
+  famid
+  siten
+  mwacs
+  ksads754
+  ksads755
+  ksads756
+  ksads757
+  ksads760
+  ksads763
+  ksads764
+  ksads765
+  ksads766
+  ksads768
+  ksads769
+  ksads770
+  fes1
+  fes2
+  fes3
+  fes4
+  fes5
+  fes6
+  fes7
+  fes8
+  fes9
+  fexp1
+  fexp2
+  fexp3
+  fexp4
+  fexp5
+  fexp6
+  fexp7
+  roster
+  fmhx4
+  fmhx5
+  fmhx6
+  fmhx7
+  fmhx8
+  fmhx9
+  fmhx10
+  fmhx11
+  fmhx12
+  fmhx13
+  cvg_acc1
+  cvg_acc2
+  cvg_acc3
+  cvg_acc4
+  cvg_acc5
+  cvg_acc
+  conflict
+  ftime_lv
+  school_g
+  grad_drp
+  service1
+  service2
+  service4
+  service5
+  service6
+  service7
+  service8
+  service9
+  det_susp
+  bst_frnd
+  grp_frnd
+  bully
+  mh_srvc
+  school2
+  school3
+  school4
+  school5
+  school6
+  school7
+  school8
+  school9
+  school10
+  school12
+  school15
+  school17
+  resil5a
+  resil6a
+  resil5b
+  resil6b
+  neigh
+  neigh1
+  neigh3
+  crpf1
+  crpf2
+  crpf4
+  crpf5
+  crpf6
+  monitor1
+  monitor2
+  monitor3
+  monitor4
+  monitor5
+  rh_yr
+  rh_ele
+  rh_walk
+  rh_crime
+  rh_eduh
+  rh_work
+  rh_incom
+  rh_indis
+  rh_homv
+  rh_rent
+  rh_homo
+  rh_crowd
+  rh_unemp
+  rh_b138
+  rh_sp
+  rh_ncar
+  rh_ntel
+  rh_nplmb
+  rh_adi_p
+  rh_pden
+  rh_no2
+  rh_pm25
+  rh_pxrd
+  rh_leadh
+  rh_pm25a
+  k763765
+  fexp34
+  fexp12
+  k764768
+  fexp67
+;
+
+USEVARIABLES ARE 
+KSADS760
+KSADS766
+KSADS769
+FES1
+FES3
+FES6
+FEXP5
+FMHX4
+FMHX5
+FMHX7
+FMHX8
+FMHX9
+FMHX10
+FMHX11
+FMHX12
+FMHX13
+MH_SRVC
+CRPF2
+CRPF4
+K763765
+FEXP34
+FEXP12
+K764768
+CVG_ACC1
+CVG_ACC2
+CVG_ACC3
+CVG_ACC4
+CVG_ACC5
+SCHOOL2
+SCHOOL3
+SCHOOL4
+SCHOOL6
+SCHOOL7
+SCHOOL8
+SCHOOL9
+SCHOOL10
+SCHOOL15
+MONITOR1
+MONITOR4
+CRPF1
+RH_EDUH
+RH_INCOM
+RH_INDIS
+RH_HOMV
+RH_RENT
+RH_HOMO
+RH_CROWD
+RH_UNEMP
+RH_B138
+RH_SP
+RH_NCAR
+RH_NTEL
+RH_ADI_P
+NEIGH1
+NEIGH3
+RH_WALK
+RH_CRIME
+RH_PDEN
+RH_NO2
+RH_PM25
+RH_LEADH
+;
+
+CATEGORICAL ARE 
+KSADS760
+KSADS766
+KSADS769
+FES1
+FES3
+FES6
+FEXP5
+FMHX4
+FMHX5
+FMHX7
+FMHX8
+FMHX9
+FMHX10
+FMHX11
+FMHX12
+FMHX13
+MH_SRVC
+CRPF2
+CRPF4
+K763765
+FEXP34
+FEXP12
+K764768
+CVG_ACC1
+CVG_ACC2
+CVG_ACC3
+CVG_ACC4
+CVG_ACC5
+SCHOOL2
+SCHOOL3
+SCHOOL4
+SCHOOL6
+SCHOOL7
+SCHOOL8
+SCHOOL9
+SCHOOL10
+SCHOOL15
+MONITOR1
+MONITOR4
+CRPF1
+NEIGH1
+NEIGH3
+;
+
+MISSING ARE .;
+  WEIGHT = mwacs;
+  STRATIFICATION=SITEN;
+  CLUSTER=FAMID;
+  IDVARIABLE = subnum;
+  
+  ANALYSIS:
+  ESTIMATOR=WLSMV;
+  ITERATIONS=500000;
+  TYPE=COMPLEX;
+
+MODEL:
+  [GENERAL@0]; [FamHX@0]; [CareGvr@0]; [SES@0]; [Environ@0];
+  GENERAL@1; FamHX@1; CareGvr@1; SES@1; Environ@1;
+  
+FamHX BY 
+KSADS760*
+KSADS766
+KSADS769
+FES1
+FES3
+FES6
+FEXP5
+FMHX4
+FMHX5
+FMHX7
+FMHX8
+FMHX9
+FMHX10
+FMHX11
+FMHX12
+FMHX13
+MH_SRVC
+CRPF2
+CRPF4
+K763765
+FEXP34
+FEXP12
+K764768
+;
+
+SES BY 
+CRPF1*
+RH_EDUH
+RH_INCOM
+RH_INDIS
+RH_HOMV
+RH_RENT
+RH_HOMO
+RH_CROWD
+RH_UNEMP
+RH_B138
+RH_SP
+RH_NCAR
+RH_NTEL
+RH_ADI_P
+; 
+
+CareGvr BY 
+CVG_ACC1*
+CVG_ACC2
+CVG_ACC3
+CVG_ACC4
+CVG_ACC5
+SCHOOL2
+SCHOOL3
+SCHOOL4
+SCHOOL6
+SCHOOL7
+SCHOOL8
+SCHOOL9
+SCHOOL10
+SCHOOL15
+MONITOR1
+MONITOR4
+;
+
+Environ BY 
+NEIGH1*
+NEIGH3
+RH_WALK
+RH_CRIME
+RH_PDEN
+RH_NO2
+RH_PM25
+RH_LEADH
+; 
+
+GENERAL BY FamHX* SES CareGvr Environ;
+
+NEIGH1 WITH NEIGH3;
+
+
+output: stdyx;
